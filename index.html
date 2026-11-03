@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>YTPMV Maker Ultra++</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">▶</span><b>YTPMV Maker</b><em>Ultra++</em></div>
+    <label class="top-field">Look <select id="look-select" title="A whole-look preset. Every setting stays editable afterwards."></select></label>
+    <button id="look-random" class="ghost" title="Try a random look">🎲 Random</button>
+    <div id="status" class="status" role="status" aria-live="polite">Load a MIDI and a clip to begin, or try the demo.</div>
+    <button id="demo-btn" class="ghost">Load demo</button>
+    <button id="save-btn" class="ghost" title="Save settings, word cuts and word order. Media files are not included.">Save project</button>
+    <button id="open-btn" class="ghost">Open project</button>
+    <input id="open-input" type="file" accept=".json,.ytpmv" hidden>
+  </header>
+  <div id="progress-strip" class="progress-strip"></div>
+
+  <main class="app">
+    <aside class="left" aria-label="Song, clips and word order">
+      <section class="panel" id="song-panel">
+        <h2><span class="step">1</span> Song</h2>
+        <label class="drop" id="midi-drop"><input id="midi-input" type="file" accept=".mid,.midi" hidden><b id="midi-name">Drop a MIDI</b><small id="midi-info">Plays the clips: its notes decide what gets sung and when.</small></label>
+        <label class="drop" id="song-drop"><input id="song-input" type="file" accept="audio/*,.mp3,.wav,.ogg,.flac,.m4a,.opus" hidden><b id="song-name">Drop an MP3</b><small id="song-info">The real music. It plays underneath, in sync with the MIDI.</small></label>
+        <div class="song-actions" id="song-actions" hidden>
+          <button id="align-btn" class="primary small" title="Lines the MIDI up with the MP3 by comparing note starts to the audio">Auto-sync MIDI to MP3</button>
+          <button id="align-tempo-btn" class="ghost small" title="Also searches for a small tempo difference. Slower.">+ tempo</button>
+          <button id="song-remove" class="ghost small icon" title="Remove the MP3" aria-label="Remove the MP3">✕</button>
+        </div>
+        <p id="align-result" class="hint" hidden></p>
+      </section>
+
+      <section class="panel" id="clips-panel">
+        <h2><span class="step">2</span> Clips and words <span id="clip-count" class="badge">0</span></h2>
+        <div id="clip-list"></div>
+        <label class="drop slim" id="clip-drop"><input id="clip-input" type="file" accept="video/*,audio/*,image/*" multiple hidden><b>＋ Add video, audio or image</b></label>
+      </section>
+
+      <section class="panel" id="phrases-panel">
+        <h2><span class="step">3</span> Word order</h2>
+        <div id="phrases"></div>
+      </section>
+    </aside>
+
+    <section class="center" aria-label="Preview">
+      <div id="stage-wrap">
+        <canvas id="stage" aria-label="YTPMV preview"></canvas>
+        <canvas id="stage-overlay" hidden></canvas>
+        <div id="stage-empty">
+          <b>Your YTPMV plays here</b>
+          <span>Add a MIDI and a clip. An MP3 is optional, but it makes it sound like the real song.</span>
+          <button id="demo-btn-2" class="primary">Load the demo</button>
+        </div>
+      </div>
+      <div class="transport">
+        <button id="play-btn" class="primary play" aria-label="Play">▶</button>
+        <button id="stop-btn" class="ghost" aria-label="Back to start" title="Back to start">■</button>
+        <label class="check" title="Loop the song"><input id="loop-check" type="checkbox"> Loop</label>
+        <span id="time" class="time">0:00.0 / 0:00.0</span>
+        <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Song position">
+        <button id="windows-btn" class="ghost small" title="Drag each track's window on the preview. Stage layout only.">Move windows</button>
+        <button id="full-btn" class="ghost small icon" title="Fullscreen preview" aria-label="Fullscreen preview">⛶</button>
+      </div>
+      <div id="timeline-wrap">
+        <canvas id="timeline" aria-label="Timeline of notes and backing track"></canvas>
+      </div>
+      <p class="hint timeline-hint">Click to seek. Scroll to zoom. Drag the MP3 row to sync it. Click a note to give it a specific word.</p>
+    </section>
+
+    <aside class="right" aria-label="Settings">
+      <nav class="tabs" id="tabs" role="tablist"></nav>
+      <div class="search-row"><input id="opt-search" type="search" placeholder="Search settings…" aria-label="Search settings"></div>
+      <div id="tab-body"></div>
+    </aside>
+  </main>
+
+  <dialog id="workshop" aria-label="Word editor"></dialog>
+  <div id="note-menu" class="note-menu" hidden></div>
+  <div id="export-cover" hidden>
+    <div class="export-card">
+      <b>Rendering your YTPMV</b>
+      <progress id="export-meter" max="1" value="0"></progress>
+      <span id="export-label">Starting…</span>
+      <button id="export-cancel" class="ghost">Cancel</button>
+    </div>
+  </div>
+
+  <script src="js/util.js"></script>
+  <script src="js/midi.js"></script>
+  <script src="js/dsp.js"></script>
+  <script src="js/options.js"></script>
+  <script src="js/compiler.js"></script>
+  <script src="js/farm.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/frames.js"></script>
+  <script src="js/postfx.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/mux.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/ui-forms.js"></script>
+  <script src="js/ui-phrases.js"></script>
+  <script src="js/ui-timeline.js"></script>
+  <script src="js/ui-workshop.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

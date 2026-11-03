@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>YTPMV Maker tests</title>
+  <style>
+    body { background: #0d0f14; color: #d8dce6; font: 13px/1.5 Consolas, monospace; padding: 16px; }
+    .pass { color: #7cff6b; }
+    .fail { color: #ff6b6b; }
+    #summary { font-size: 18px; margin-bottom: 12px; }
+    /* The app's page is present so the app tests exercise the real UI code; it stays out of the way. */
+    #app-host { position: fixed; left: -3000px; top: 0; width: 1400px; height: 860px; }
+  </style>
+</head>
+<body>
+  <div id="summary">Running… (takes about a minute; records and exports real video)</div>
+  <div id="results"></div>
+  <div id="app-host">
+    <link rel="stylesheet" href="../css/app.css">
+    <div id="status"></div>
+    <div id="progress-strip"></div>
+    <label id="midi-drop"><input id="midi-input" type="file"><b id="midi-name"></b><small id="midi-info"></small></label>
+    <label id="song-drop"><input id="song-input" type="file"><b id="song-name"></b><small id="song-info"></small></label>
+    <div id="song-actions"><button id="align-btn"></button><button id="align-tempo-btn"></button><button id="song-remove"></button></div>
+    <p id="align-result"></p>
+    <span id="clip-count"></span><div id="clip-list"></div>
+    <label id="clip-drop"><input id="clip-input" type="file"></label>
+    <div id="phrases"></div>
+    <div id="stage-wrap"><canvas id="stage"></canvas><canvas id="stage-overlay" hidden></canvas><div id="stage-empty"><button id="demo-btn-2"></button></div></div>
+    <button id="play-btn"></button><button id="stop-btn"></button><input id="loop-check" type="checkbox"><span id="time"></span><input id="seek" type="range" min="0" max="1000">
+    <button id="windows-btn"></button><button id="full-btn"></button>
+    <div id="timeline-wrap" style="height:170px"><canvas id="timeline"></canvas></div>
+    <nav id="tabs"></nav><input id="opt-search" type="search"><div id="tab-body"></div>
+    <select id="look-select"></select><button id="look-random"></button><button id="demo-btn"></button><button id="save-btn"></button><button id="open-btn"></button><input id="open-input" type="file">
+    <dialog id="workshop"></dialog><div id="note-menu" hidden></div>
+    <div id="export-cover" hidden><progress id="export-meter"></progress><span id="export-label"></span><button id="export-cancel"></button></div>
+  </div>
+  <script src="../js/util.js"></script>
+  <script src="../js/midi.js"></script>
+  <script src="../js/dsp.js"></script>
+  <script src="../js/options.js"></script>
+  <script src="../js/compiler.js"></script>
+  <script src="../js/farm.js"></script>
+  <script src="../js/audio.js"></script>
+  <script src="../js/frames.js"></script>
+  <script src="../js/postfx.js"></script>
+  <script src="../js/scene.js"></script>
+  <script src="../js/mux.js"></script>
+  <script src="../js/export.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui-forms.js"></script>
+  <script src="../js/ui-phrases.js"></script>
+  <script src="../js/ui-timeline.js"></script>
+  <script src="../js/ui-workshop.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="kit.js"></script>
+  <script src="core.tests.js"></script>
+  <script src="app.tests.js"></script>
+</body>
+</html>
